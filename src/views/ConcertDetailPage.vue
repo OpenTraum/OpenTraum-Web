@@ -52,19 +52,23 @@ function goToLottery() {
     router.push({ name: 'login', query: { redirect: route.fullPath } })
     return
   }
-  router.push(`/lottery/${concert.value!.id}`)
+  router.push({ path: `/queue/${concert.value!.id}`, query: { track: 'lottery', trackPolicy: trackPolicy.value } })
 }
 
+const trackPolicy = computed(() => selectedDate.value?.trackPolicy ?? 'DUAL_TRACK')
+const showLottery = computed(() => trackPolicy.value !== 'LIVE_ONLY')
+const showLive = computed(() => trackPolicy.value !== 'LOTTERY_ONLY')
+
 const activeTrack = computed(() => selectedDate.value?.activeTrack ?? undefined)
-const isLotteryLocked = computed(() => activeTrack.value === 'live')
-const isLiveLocked = computed(() => activeTrack.value === 'lottery')
+const isLotteryLocked = computed(() => !showLottery.value || activeTrack.value === 'live')
+const isLiveLocked = computed(() => !showLive.value || activeTrack.value === 'lottery')
 
 function goToQueue() {
   if (!authStore.isLoggedIn) {
     router.push({ name: 'login', query: { redirect: route.fullPath } })
     return
   }
-  router.push(`/queue/${concert.value!.id}`)
+  router.push({ path: `/queue/${concert.value!.id}`, query: { trackPolicy: trackPolicy.value } })
 }
 </script>
 
@@ -263,14 +267,19 @@ function goToQueue() {
 
             <!-- 듀얼 트랙 선택 카드 -->
             <div class="rounded-xl border border-border bg-card p-6">
-              <h3 class="font-display text-lg font-bold text-foreground mb-2">예매 방식 선택</h3>
-              <p class="text-xs text-muted-foreground mb-5">
+              <h3 class="font-display text-lg font-bold text-foreground mb-2">
+                {{ trackPolicy === 'DUAL_TRACK' ? '예매 방식 선택' : '예매하기' }}
+              </h3>
+              <p v-if="trackPolicy === 'DUAL_TRACK'" class="text-xs text-muted-foreground mb-5">
                 원하는 예매 트랙을 선택하세요
+              </p>
+              <p v-else class="text-xs text-muted-foreground mb-5">
+                {{ trackPolicy === 'LOTTERY_ONLY' ? '추첨 예매로 진행됩니다' : '선착순 예매로 진행됩니다' }}
               </p>
 
               <!-- 로터리 트랙 -->
               <button
-                v-if="!isLotteryLocked"
+                v-if="showLottery && !isLotteryLocked"
                 :disabled="concert.saleStatus !== 'on-sale'"
                 class="w-full text-left p-4 rounded-xl border border-border bg-background hover:border-primary/40 hover:bg-primary/5 transition-all mb-3 group disabled:opacity-50 disabled:cursor-not-allowed"
                 @click="goToLottery"
@@ -292,7 +301,7 @@ function goToQueue() {
               </button>
               <!-- 로터리 트랙 (잠금) -->
               <div
-                v-else
+                v-else-if="showLottery"
                 class="w-full text-left p-4 rounded-xl border border-border bg-muted/30 mb-3 opacity-60 cursor-not-allowed"
               >
                 <div class="flex items-start gap-3">
@@ -310,7 +319,7 @@ function goToQueue() {
 
               <!-- 라이브 트랙 -->
               <button
-                v-if="!isLiveLocked"
+                v-if="showLive && !isLiveLocked"
                 :disabled="concert.saleStatus !== 'on-sale'"
                 class="w-full text-left p-4 rounded-xl border border-border bg-background hover:border-primary/40 hover:bg-primary/5 transition-all group disabled:opacity-50 disabled:cursor-not-allowed"
                 @click="goToQueue"
@@ -332,7 +341,7 @@ function goToQueue() {
               </button>
               <!-- 라이브 트랙 (잠금) -->
               <div
-                v-else
+                v-else-if="showLive"
                 class="w-full text-left p-4 rounded-xl border border-border bg-muted/30 opacity-60 cursor-not-allowed"
               >
                 <div class="flex items-start gap-3">

@@ -12,7 +12,8 @@ const router = useRouter()
 const queueStore = useQueueStore()
 
 const concertId = route.params.concertId as string
-const track = (route.query.track as string) || 'live'
+const trackPolicy = (route.query.trackPolicy as string) || 'DUAL_TRACK'
+const track = trackPolicy === 'LOTTERY_ONLY' ? 'lottery' : (route.query.track as string) || 'live'
 const joining = ref(true)
 const cancelling = ref(false)
 
