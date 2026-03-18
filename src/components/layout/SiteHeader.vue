@@ -9,6 +9,7 @@ const mobileOpen = ref(false)
 const navLinks = [
   { label: 'Concerts', to: '/concerts' },
   { label: 'My Tickets', to: '/my/tickets' },
+  { label: 'Admin', to: '/admin/events' },
 ]
 </script>
 
