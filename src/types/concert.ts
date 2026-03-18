@@ -10,6 +10,8 @@ export interface TicketGrade {
 
 export type ActiveTrack = 'lottery' | 'live' | 'none'
 
+export type TrackPolicy = 'LOTTERY_ONLY' | 'LIVE_ONLY' | 'DUAL_TRACK'
+
 export interface ConcertDate {
   id: string
   date: string // yyyy-MM-dd
@@ -17,6 +19,7 @@ export interface ConcertDate {
   venue: string
   available: boolean
   activeTrack?: ActiveTrack // 현재 열린 트랙 (없으면 둘 다 열림)
+  trackPolicy?: TrackPolicy // 배정 방식 (없으면 DUAL_TRACK)
 }
 
 export interface Concert {
