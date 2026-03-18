@@ -66,6 +66,24 @@ const router = createRouter({
       meta: { requiresAuth: true },
     },
     {
+      path: '/admin/events',
+      name: 'admin-events',
+      component: () => import('@/views/AdminEventsPage.vue'),
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/admin/events/new',
+      name: 'admin-event-create',
+      component: () => import('@/views/AdminEventCreatePage.vue'),
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/admin/events/:id',
+      name: 'admin-dashboard',
+      component: () => import('@/views/AdminDashboardPage.vue'),
+      meta: { requiresAuth: true },
+    },
+    {
       path: '/:pathMatch(.*)*',
       name: 'not-found',
       component: () => import('@/views/NotFoundPage.vue'),
