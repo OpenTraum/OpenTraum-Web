@@ -12,6 +12,7 @@ function mapAuthResponse(raw: AuthApiResponse, name?: string, phone?: string): A
       name: name ?? raw.name ?? '',
       phone: phone ?? '',
       role: (raw.role as UserRole) ?? 'CONSUMER',
+      tenantId: raw.tenantId,
     },
   }
 }

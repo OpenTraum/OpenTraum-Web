@@ -6,6 +6,7 @@ export interface User {
   name: string
   phone: string
   role: UserRole
+  tenantId?: string
 }
 
 export interface SignupRequest {
@@ -32,5 +33,6 @@ export interface AuthApiResponse {
   email: string
   name: string
   role: string
+  tenantId?: string
   token: string
 }
