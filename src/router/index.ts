@@ -69,19 +69,19 @@ const router = createRouter({
       path: '/admin/events',
       name: 'admin-events',
       component: () => import('@/views/AdminEventsPage.vue'),
-      meta: { requiresAuth: true },
+      meta: { requiresAuth: true, requiresOrganizer: true },
     },
     {
       path: '/admin/events/new',
       name: 'admin-event-create',
       component: () => import('@/views/AdminEventCreatePage.vue'),
-      meta: { requiresAuth: true },
+      meta: { requiresAuth: true, requiresOrganizer: true },
     },
     {
       path: '/admin/events/:id',
       name: 'admin-dashboard',
       component: () => import('@/views/AdminDashboardPage.vue'),
-      meta: { requiresAuth: true },
+      meta: { requiresAuth: true, requiresOrganizer: true },
     },
     {
       path: '/:pathMatch(.*)*',
@@ -94,6 +94,18 @@ const router = createRouter({
 router.beforeEach((to) => {
   if (to.meta.requiresAuth && !localStorage.getItem('access_token')) {
     return { name: 'login', query: { redirect: to.fullPath } }
+  }
+
+  if (to.meta.requiresOrganizer) {
+    try {
+      const raw = localStorage.getItem('user')
+      const user = raw ? JSON.parse(raw) : null
+      if (user?.role !== 'ORGANIZER') {
+        return { name: 'home' }
+      }
+    } catch {
+      return { name: 'home' }
+    }
   }
 })
 

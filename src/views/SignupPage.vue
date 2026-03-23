@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { Mail, Lock, UserIcon, Phone, Loader2 } from 'lucide-vue-next'
+import { Mail, Lock, UserIcon, Phone, Loader2, Ticket, Megaphone } from 'lucide-vue-next'
 import { useAuthStore } from '@/stores/auth.store'
+import type { UserRole } from '@/types/auth'
 
 const router = useRouter()
 const authStore = useAuthStore()
@@ -12,6 +13,7 @@ const email = ref('')
 const phone = ref('')
 const password = ref('')
 const passwordConfirm = ref('')
+const role = ref<UserRole>('CONSUMER')
 const loading = ref(false)
 const error = ref('')
 
@@ -42,8 +44,8 @@ async function handleSubmit() {
 
   loading.value = true
   try {
-    await authStore.signup(email.value, password.value, name.value, phone.value)
-    router.push('/concerts')
+    await authStore.signup(email.value, password.value, name.value, phone.value, role.value)
+    router.push(role.value === 'ORGANIZER' ? '/admin/events' : '/concerts')
   } catch {
     error.value = '회원가입에 실패했습니다. 다시 시도해주세요.'
   } finally {
@@ -85,6 +87,41 @@ async function handleSubmit() {
             class="rounded-lg bg-destructive/10 lg:bg-red-50 border border-destructive/30 lg:border-red-200 px-4 py-3 text-sm text-destructive lg:text-red-600"
           >
             {{ error }}
+          </div>
+
+          <!-- 역할 선택 -->
+          <div class="space-y-2">
+            <label class="text-sm font-medium text-foreground lg:text-gray-700">가입 유형</label>
+            <div class="grid grid-cols-2 gap-3">
+              <button
+                type="button"
+                @click="role = 'CONSUMER'"
+                :class="[
+                  'flex flex-col items-center gap-2 p-4 rounded-lg border-2 transition-all',
+                  role === 'CONSUMER'
+                    ? 'border-primary bg-primary/5 lg:bg-primary/10'
+                    : 'border-input lg:border-gray-200 hover:border-primary/50'
+                ]"
+              >
+                <Ticket class="w-5 h-5" :class="role === 'CONSUMER' ? 'text-primary' : 'text-muted-foreground lg:text-gray-400'" />
+                <span class="text-sm font-medium" :class="role === 'CONSUMER' ? 'text-primary' : 'text-foreground lg:text-gray-700'">티켓 구매자</span>
+                <span class="text-xs text-muted-foreground lg:text-gray-400">공연 예매</span>
+              </button>
+              <button
+                type="button"
+                @click="role = 'ORGANIZER'"
+                :class="[
+                  'flex flex-col items-center gap-2 p-4 rounded-lg border-2 transition-all',
+                  role === 'ORGANIZER'
+                    ? 'border-primary bg-primary/5 lg:bg-primary/10'
+                    : 'border-input lg:border-gray-200 hover:border-primary/50'
+                ]"
+              >
+                <Megaphone class="w-5 h-5" :class="role === 'ORGANIZER' ? 'text-primary' : 'text-muted-foreground lg:text-gray-400'" />
+                <span class="text-sm font-medium" :class="role === 'ORGANIZER' ? 'text-primary' : 'text-foreground lg:text-gray-700'">이벤트 주최자</span>
+                <span class="text-xs text-muted-foreground lg:text-gray-400">공연 등록 / 관리</span>
+              </button>
+            </div>
           </div>
 
           <div class="space-y-2">
