@@ -32,7 +32,6 @@ export interface AdminEventCreateRequest {
   ticketOpenAt: string
   ticketCloseAt: string
   trackPolicy: string
-  tenantId: string
   grades: GradeConfig[]
   zones: ZoneConfig[]
 }

@@ -20,7 +20,6 @@ const totalSeats = ref(0)
 const trackPolicy = ref('DUAL_TRACK')
 const ticketOpenAt = ref('')
 const ticketCloseAt = ref('')
-const tenantId = ref('default')
 const grades = ref<GradeConfig[]>([])
 const zones = ref<ZoneConfig[]>([])
 const saving = ref(false)
@@ -69,7 +68,6 @@ async function handleCreate() {
       ticketOpenAt: ticketOpenAt.value,
       ticketCloseAt: ticketCloseAt.value,
       trackPolicy: trackPolicy.value,
-      tenantId: tenantId.value,
       grades: grades.value,
       zones: zones.value,
     })
@@ -176,11 +174,6 @@ async function handleCreate() {
           <div>
             <label class="block text-sm text-muted-foreground mb-1.5">티켓 마감 일시</label>
             <input v-model="ticketCloseAt" type="datetime-local" required
-              class="w-full h-10 px-3 rounded-lg bg-secondary border border-border text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/50" />
-          </div>
-          <div>
-            <label class="block text-sm text-muted-foreground mb-1.5">테넌트 ID</label>
-            <input v-model="tenantId" type="text" required
               class="w-full h-10 px-3 rounded-lg bg-secondary border border-border text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/50" />
           </div>
         </div>

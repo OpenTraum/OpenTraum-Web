@@ -18,6 +18,9 @@ client.interceptors.request.use((config) => {
       if (user.id) {
         config.headers['X-User-Id'] = String(user.id)
       }
+      if (user.tenantId) {
+        config.headers['X-Tenant-Id'] = user.tenantId
+      }
     } catch {
       // ignore malformed JSON
     }
