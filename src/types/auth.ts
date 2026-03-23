@@ -1,8 +1,11 @@
+export type UserRole = 'CONSUMER' | 'ORGANIZER'
+
 export interface User {
   id: string
   email: string
   name: string
   phone: string
+  role: UserRole
 }
 
 export interface SignupRequest {
@@ -10,6 +13,7 @@ export interface SignupRequest {
   password: string
   name: string
   phone: string
+  role: UserRole
 }
 
 export interface LoginRequest {
@@ -27,5 +31,6 @@ export interface AuthApiResponse {
   userId: number
   email: string
   name: string
+  role: string
   token: string
 }

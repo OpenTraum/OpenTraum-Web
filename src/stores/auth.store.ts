@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
-import type { User } from '@/types/auth'
+import type { User, UserRole } from '@/types/auth'
 import { authApi } from '@/api/auth.api'
 
 function loadUser(): User | null {
@@ -19,9 +19,10 @@ export const useAuthStore = defineStore('auth', () => {
   const token = ref<string | null>(localStorage.getItem('access_token'))
 
   const isLoggedIn = computed(() => !!token.value)
+  const isOrganizer = computed(() => user.value?.role === 'ORGANIZER')
 
-  async function signup(email: string, password: string, name: string, phone: string) {
-    const res = await authApi.signup({ email, password, name, phone })
+  async function signup(email: string, password: string, name: string, phone: string, role: UserRole) {
+    const res = await authApi.signup({ email, password, name, phone, role })
     token.value = res.accessToken
     user.value = res.user
     localStorage.setItem('access_token', res.accessToken)
@@ -49,5 +50,5 @@ export const useAuthStore = defineStore('auth', () => {
     router.push('/login')
   }
 
-  return { user, token, isLoggedIn, signup, login, logout }
+  return { user, token, isLoggedIn, isOrganizer, signup, login, logout }
 })
