@@ -24,7 +24,7 @@ const isExpired = computed(() => status.value === 'expired')
         <div class="relative">
           <div class="absolute inset-0 w-24 h-24 mx-auto rounded-full bg-emerald-500/20 animate-ping" style="animation-duration: 2s; animation-iteration-count: 3" />
           <div class="relative w-24 h-24 rounded-full bg-emerald-500/20 flex items-center justify-center mx-auto mb-6">
-            <CheckCircle class="w-12 h-12 text-emerald-400" />
+            <CheckCircle class="w-12 h-12 text-emerald-600" />
           </div>
         </div>
         <h1 class="font-display text-3xl font-bold text-foreground mb-2">결제 완료!</h1>
@@ -102,7 +102,7 @@ const isExpired = computed(() => status.value === 'expired')
       <!-- 만료 -->
       <template v-else-if="isExpired">
         <div class="w-20 h-20 rounded-full bg-amber-500/20 flex items-center justify-center mx-auto mb-6">
-          <Clock class="w-10 h-10 text-amber-400" />
+          <Clock class="w-10 h-10 text-amber-600" />
         </div>
         <h1 class="font-display text-2xl font-bold text-foreground mb-2">결제 시간 만료</h1>
         <p class="text-muted-foreground mb-8">결제 제한 시간이 초과되었습니다.<br />다시 예매해주세요.</p>

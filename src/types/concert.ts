@@ -4,6 +4,7 @@ export interface TicketGrade {
   id: string
   label: string // VIP, S, A
   price: number
+  originalPrice?: number
   totalSeats: number
   availableSeats: number
 }
@@ -17,6 +18,7 @@ export interface ConcertDate {
   date: string // yyyy-MM-dd
   time: string // HH:mm
   venue: string
+  city?: string
   available: boolean
   activeTrack?: ActiveTrack // 현재 열린 트랙 (없으면 둘 다 열림)
   trackPolicy?: TrackPolicy // 배정 방식 (없으면 DUAL_TRACK)
@@ -28,6 +30,10 @@ export interface Concert {
   artist: string
   venue: string
   image: string // FE 정적 매핑
+  category?: string
+  subtitle?: string
+  description?: string
+  tags?: string[]
   saleStatus: SaleStatus
   saleDate?: string
   dates: ConcertDate[]

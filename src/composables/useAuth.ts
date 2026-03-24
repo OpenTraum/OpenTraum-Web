@@ -1,5 +1,6 @@
 import { useAuthStore } from '@/stores/auth.store'
 import { useRouter } from 'vue-router'
+import type { UserRole } from '@/types/auth'
 
 export function useAuth() {
   const store = useAuthStore()
@@ -14,9 +15,10 @@ export function useAuth() {
     email: string,
     password: string,
     name: string,
-    phone: string
+    phone: string,
+    role: UserRole
   ) {
-    await store.signup(email, password, name, phone)
+    await store.signup(email, password, name, phone, role)
     router.push('/concerts')
   }
 

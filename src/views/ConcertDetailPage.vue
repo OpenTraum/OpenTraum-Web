@@ -102,13 +102,13 @@ function goToQueue() {
           </span>
           <span
             v-if="concert.saleStatus === 'on-sale'"
-            class="px-3 py-1 text-xs font-semibold uppercase tracking-wider rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30"
+            class="px-3 py-1 text-xs font-semibold uppercase tracking-wider rounded-full bg-emerald-500/15 text-emerald-600 border border-emerald-500/30"
           >
             예매중
           </span>
           <span
             v-else-if="concert.saleStatus === 'coming-soon'"
-            class="px-3 py-1 text-xs font-semibold uppercase tracking-wider rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/30"
+            class="px-3 py-1 text-xs font-semibold uppercase tracking-wider rounded-full bg-amber-500/15 text-amber-600 border border-amber-500/30"
           >
             예매예정
           </span>
@@ -362,7 +362,7 @@ function goToQueue() {
                 v-if="concert.saleStatus === 'coming-soon'"
                 class="text-center py-3 mt-3"
               >
-                <p class="text-sm text-amber-400 font-medium mb-1">예매 오픈 예정</p>
+                <p class="text-sm text-amber-600 font-medium mb-1">예매 오픈 예정</p>
                 <p v-if="concert.saleDate" class="text-xs text-muted-foreground">
                   {{ new Date(concert.saleDate).toLocaleDateString('ko-KR', { month: 'long', day: 'numeric', hour: 'numeric', minute: '2-digit' }) }}
                 </p>

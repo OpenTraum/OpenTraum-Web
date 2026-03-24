@@ -40,10 +40,10 @@ const statusLabel: Record<string, string> = {
 }
 
 const statusColor: Record<string, string> = {
-  UPCOMING: 'bg-yellow-500/20 text-yellow-400',
-  OPEN: 'bg-green-500/20 text-green-400',
-  CLOSED: 'bg-red-500/20 text-red-400',
-  COMPLETED: 'bg-gray-500/20 text-gray-400',
+  UPCOMING: 'bg-yellow-500/15 text-yellow-600',
+  OPEN: 'bg-green-500/15 text-green-600',
+  CLOSED: 'bg-red-500/15 text-red-600',
+  COMPLETED: 'bg-gray-500/15 text-gray-600',
 }
 </script>
 

@@ -1,8 +1,6 @@
 import type { Seat, SeatSection, VenueSectionInfo } from '@/types/seat'
 import client from './client'
 
-const USE_MOCK = import.meta.env.VITE_USE_MOCK === 'true'
-
 export interface SeatSelectionResponse {
   scheduleId: number
   grade: string
@@ -13,7 +11,7 @@ export interface SeatSelectionResponse {
   message: string
 }
 
-/* ─── 공연장 레이아웃 JSON 타입 ─── */
+/* --- venue layout JSON types --- */
 interface VenueSectionConfig {
   id: string
   floor: string
@@ -27,7 +25,7 @@ interface VenueLayout {
   sections: VenueSectionConfig[]
 }
 
-/* ─── 레이아웃 캐시 (같은 공연장은 한 번만 fetch) ─── */
+/* --- layout cache (fetch once per venue) --- */
 const layoutCache: Record<string, VenueLayout> = {}
 
 async function fetchVenueLayout(venueName: string): Promise<VenueLayout> {
@@ -39,7 +37,7 @@ async function fetchVenueLayout(venueName: string): Promise<VenueLayout> {
   return layout
 }
 
-/* ─── 좌표 계산 (mock에서 이관) ─── */
+/* --- coordinate builder --- */
 function buildSectionSeats(config: VenueSectionConfig): SeatSection {
   const seats: Seat[] = []
   const rowLabels = Array.from({ length: config.rows }, (_, i) =>
@@ -103,7 +101,6 @@ export const seatApi = {
 
   /** 특정 등급+구역의 예매 가능 좌석번호 목록 */
   async getAvailableSeats(scheduleId: string, grade: string, zone: string): Promise<string[]> {
-    if (USE_MOCK) return []
     return (
       await client.get<string[]>(`/v1/live/${scheduleId}`, { params: { grade, zone } })
     ).data
@@ -116,17 +113,6 @@ export const seatApi = {
     zone: string,
     seatNumber: string,
   ): Promise<SeatSelectionResponse> {
-    if (USE_MOCK) {
-      return {
-        scheduleId: Number(scheduleId),
-        grade,
-        zone,
-        seatNumber,
-        holdExpiresAt: new Date(Date.now() + 10 * 60 * 1000).toISOString(),
-        paymentDeadline: new Date(Date.now() + 10 * 60 * 1000).toISOString(),
-        message: '좌석이 선택되었습니다.',
-      }
-    }
     return (
       await client.post<SeatSelectionResponse>(`/v1/live/${scheduleId}`, {
         scheduleId: Number(scheduleId),
@@ -139,13 +125,11 @@ export const seatApi = {
 
   /** 좌석 선택 해제 */
   async releaseSeat(scheduleId: string, zone: string, seatNumber: string): Promise<void> {
-    if (USE_MOCK) return
     await client.delete(`/v1/live/${scheduleId}`, { params: { zone, seatNumber } })
   },
 
   /** 라이브 트랙 오픈 여부 */
   async isLiveOpen(scheduleId: string): Promise<boolean> {
-    if (USE_MOCK) return true
     return (await client.get<boolean>(`/v1/live/${scheduleId}/status`)).data
   },
 }

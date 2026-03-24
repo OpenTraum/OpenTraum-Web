@@ -38,7 +38,7 @@ function seatColor(seat: Seat) {
       xmlns="http://www.w3.org/2000/svg"
     >
       <!-- Stage direction -->
-      <rect x="200" y="10" width="300" height="32" rx="16" fill="hsl(265,85%,60%)" opacity="0.3" />
+      <rect x="200" y="10" width="300" height="32" rx="16" fill="hsl(210,100%,50%)" opacity="0.3" />
       <text x="350" y="32" text-anchor="middle" fill="white" font-size="13" font-weight="600">
         ↑ STAGE
       </text>
@@ -47,7 +47,7 @@ function seatColor(seat: Seat) {
       <text
         v-if="sectionLabel"
         x="350" y="62"
-        text-anchor="middle" fill="hsl(265,85%,60%)" font-size="16" font-weight="700"
+        text-anchor="middle" fill="hsl(210,100%,50%)" font-size="16" font-weight="700"
       >{{ sectionLabel }}</text>
 
       <!-- Seats -->

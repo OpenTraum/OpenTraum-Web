@@ -52,9 +52,9 @@ function goTo(i: number) {
 
 // ── Helpers ─────────────────────────────────────────────
 const statusMap: Record<string, { text: string; cls: string }> = {
-  'on-sale': { text: '예매중', cls: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30' },
-  'coming-soon': { text: '예정', cls: 'bg-amber-500/20 text-amber-400 border-amber-500/30' },
-  'sold-out': { text: '매진', cls: 'bg-red-500/20 text-red-400 border-red-500/30' },
+  'on-sale': { text: '예매중', cls: 'bg-emerald-500/15 text-emerald-600 border-emerald-500/30' },
+  'coming-soon': { text: '예정', cls: 'bg-amber-500/15 text-amber-600 border-amber-500/30' },
+  'sold-out': { text: '매진', cls: 'bg-red-500/15 text-red-600 border-red-500/30' },
 }
 
 function formatDate(d: string) {
@@ -140,7 +140,7 @@ function formatDate(d: string) {
                 >
                   <CalendarDays class="w-4 h-4" />
                   <span class="text-sm">
-                    {{ formatDate(concert.dates[0].date) }} · {{ concert.dates[0].venue }}
+                    {{ formatDate(concert.dates[0]!.date) }} · {{ concert.dates[0]!.venue }}
                   </span>
                 </div>
 

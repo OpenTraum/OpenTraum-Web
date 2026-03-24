@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { Ticket, Shield, Zap, CreditCard, ArrowRight } from 'lucide-vue-next'
+import { Shield, Zap, CreditCard, ArrowRight } from 'lucide-vue-next'
 
 const router = useRouter()
 
@@ -19,7 +19,7 @@ function onMouse(e: MouseEvent) {
 }
 
 const spotStyle = computed(() => ({
-  background: `radial-gradient(600px at ${px.value}px ${py.value}px, hsl(265 85% 50% / 0.08), transparent 60%)`,
+  background: `radial-gradient(600px at ${px.value}px ${py.value}px, hsl(210 100% 50% / 0.08), transparent 60%)`,
 }))
 
 // Parallax per depth layer (higher = more movement)
@@ -47,20 +47,10 @@ const b1 = computed(() => `translate(${(mx.value - 0.5) * 50}px, ${(my.value - 0
 const b2 = computed(() => `translate(${(mx.value - 0.5) * -40}px, ${(my.value - 0.5) * -25}px)`)
 const b3 = computed(() => `translate(${(mx.value - 0.5) * 30}px, ${(my.value - 0.5) * -35}px)`)
 
-// ── Artists ─────────────────────────────────────────────
-const artists = [
-  { name: '아이유', img: '/images/iu.jpg' },
-  { name: 'BLACKPINK', img: '/images/blackpink.jpg' },
-  { name: 'BTS', img: '/images/bts.jpg' },
-  { name: 'LUCY', img: '/images/Lucy.jpg' },
-  { name: 'aespa', img: '/images/aespa.jpg' },
-  { name: 'SEVENTEEN', img: '/images/seventeen.png' },
-]
-
 // ── Typing ──────────────────────────────────────────────
 const typedText = ref('')
 const showCursor = ref(true)
-const fullText = '모든 팬에게, 공정한 기회를'
+const fullText = 'AI로 만들고, 공정하게 예매하는'
 
 function startTyping() {
   let i = 0
@@ -124,13 +114,13 @@ function tick() {
 
   for (let i = 0; i < dots.length; i++) {
     for (let j = i + 1; j < dots.length; j++) {
-      const dx = dots[i].x - dots[j].x, dy = dots[i].y - dots[j].y
+      const dx = dots[i]!.x - dots[j]!.x, dy = dots[i]!.y - dots[j]!.y
       const dist = Math.sqrt(dx * dx + dy * dy)
       if (dist < LINK) {
         ctx.beginPath()
-        ctx.moveTo(dots[i].x, dots[i].y)
-        ctx.lineTo(dots[j].x, dots[j].y)
-        ctx.strokeStyle = `hsla(265,60%,65%,${(1 - dist / LINK) * 0.12})`
+        ctx.moveTo(dots[i]!.x, dots[i]!.y)
+        ctx.lineTo(dots[j]!.x, dots[j]!.y)
+        ctx.strokeStyle = `hsla(210,60%,65%,${(1 - dist / LINK) * 0.15})`
         ctx.lineWidth = 0.5
         ctx.stroke()
       }
@@ -206,7 +196,7 @@ onUnmounted(() => {
 
     <!-- ── Floating feature cards ── -->
     <div class="feat-layer" :class="{ in: phase >= 5 }">
-      <div class="feat-float ff1" :style="plxMid.value">
+      <div class="feat-float ff1" :style="plxMid">
         <div class="feat-card">
           <div class="feat-glow" />
           <div class="feat-icon"><Shield :size="22" :stroke-width="1.5" /></div>
@@ -216,7 +206,7 @@ onUnmounted(() => {
           </div>
         </div>
       </div>
-      <div class="feat-float ff2" :style="plxFast.value">
+      <div class="feat-float ff2" :style="plxFast">
         <div class="feat-card">
           <div class="feat-glow" />
           <div class="feat-icon"><Zap :size="22" :stroke-width="1.5" /></div>
@@ -226,7 +216,7 @@ onUnmounted(() => {
           </div>
         </div>
       </div>
-      <div class="feat-float ff3" :style="plxSlow.value">
+      <div class="feat-float ff3" :style="plxSlow">
         <div class="feat-card">
           <div class="feat-glow" />
           <div class="feat-icon"><CreditCard :size="22" :stroke-width="1.5" /></div>
@@ -242,7 +232,7 @@ onUnmounted(() => {
     <div class="center">
       <div class="logo" :class="{ in: phase >= 2 }">
         <div class="pulse-ring r1" /><div class="pulse-ring r2" /><div class="pulse-ring r3" />
-        <div class="logo-circle"><img src="@/assets/logo.png" alt="OpenTraum" class="w-16 h-16 object-contain" /></div>
+        <div class="logo-circle"><img src="@/assets/logo.png" alt="OpenTraum" class="w-20 h-20 object-contain" /></div>
       </div>
 
       <h1 class="title" :class="{ in: phase >= 3 }">OPENTRAUM</h1>
@@ -257,23 +247,12 @@ onUnmounted(() => {
       </button>
     </div>
 
-    <!-- ── Artist marquee ── -->
-    <div class="marquee-wrap" :class="{ in: phase >= 6 }">
-      <div class="marquee-track">
-        <div v-for="(a, i) in [...artists, ...artists, ...artists]" :key="i" class="marquee-item">
-          <img :src="a.img" :alt="a.name" class="marquee-img" />
-          <span class="marquee-name">{{ a.name }}</span>
-        </div>
-      </div>
-    </div>
-
     <!-- ── Ticker ── -->
     <div class="ticker" :class="{ in: phase >= 6 }">
       <div class="ticker-track">
         <span v-for="i in 4" :key="i" class="ticker-seg">
-          FAIR QUEUE&ensp;&bull;&ensp;REAL-TIME SEATS&ensp;&bull;&ensp;SECURE
-          PAYMENT&ensp;&bull;&ensp;모든 팬에게 공정한
-          기회를&ensp;&bull;&ensp;
+          OPEN TRAUM&ensp;&bull;&ensp;AI-POWERED SMART
+          TICKETING&ensp;&bull;&ensp;
         </span>
       </div>
     </div>
@@ -287,7 +266,7 @@ onUnmounted(() => {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
-  background: #07071a;
+  background: #f0f5fa;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -299,21 +278,21 @@ onUnmounted(() => {
 .spot { position: absolute; inset: 0; pointer-events: none; z-index: 2; }
 .vignette {
   position: absolute; inset: 0; z-index: 5; pointer-events: none;
-  background: radial-gradient(ellipse at center, transparent 35%, #07071a 100%);
+  background: radial-gradient(ellipse at center, transparent 35%, #f0f5fa 100%);
 }
 .ptcl { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
 
 /* ── Blobs ────────────────────────────────────────────── */
 .blobs { position: absolute; inset: 0; filter: blur(100px); opacity: 0; transition: opacity 1.5s; }
-.blobs.in { opacity: 1; }
+.blobs.in { opacity: 0.6; }
 .bf { position: absolute; }
 .bf1 { top: -15%; left: -10%; animation: d1 18s ease-in-out infinite alternate; }
 .bf2 { bottom: -10%; right: -8%; animation: d2 22s ease-in-out infinite alternate; }
 .bf3 { top: 35%; left: 45%; animation: d3 16s ease-in-out infinite alternate; }
 .b { border-radius: 50%; transition: transform 0.2s ease-out; }
-.b1 { width: 500px; height: 500px; background: radial-gradient(circle, hsl(265 85% 40%), transparent 70%); }
-.b2 { width: 450px; height: 450px; background: radial-gradient(circle, hsl(220 90% 40%), transparent 70%); }
-.b3 { width: 350px; height: 350px; background: radial-gradient(circle, hsl(300 70% 35%), transparent 70%); }
+.b1 { width: 500px; height: 500px; background: radial-gradient(circle, hsl(210 90% 70%), transparent 70%); }
+.b2 { width: 450px; height: 450px; background: radial-gradient(circle, hsl(195 90% 65%), transparent 70%); }
+.b3 { width: 350px; height: 350px; background: radial-gradient(circle, hsl(220 85% 72%), transparent 70%); }
 @keyframes d1 { 0%{transform:translate(0,0) scale(1)} 50%{transform:translate(60px,-40px) scale(1.1)} 100%{transform:translate(-20px,30px) scale(1.05)} }
 @keyframes d2 { 0%{transform:translate(0,0) scale(1)} 50%{transform:translate(-50px,30px) scale(1.08)} 100%{transform:translate(40px,-20px) scale(.95)} }
 @keyframes d3 { 0%{transform:translate(0,0) scale(1)} 50%{transform:translate(30px,50px) scale(1.15)} 100%{transform:translate(-40px,-30px) scale(1)} }
@@ -326,40 +305,40 @@ onUnmounted(() => {
 .deco-ring {
   top: 12%; right: 18%;
   width: 80px; height: 80px;
-  border: 1px solid hsl(265 70% 60% / 0.15);
+  border: 1px solid hsl(210 80% 55% / 0.2);
   border-radius: 50%;
   animation: spin-slow 20s linear infinite, float-gentle 6s ease-in-out infinite;
 }
 .deco-diamond {
   bottom: 22%; left: 12%;
   width: 16px; height: 16px;
-  background: hsl(265 85% 60% / 0.12);
+  background: hsl(210 100% 50% / 0.15);
   transform: rotate(45deg);
   animation: float-gentle 5s ease-in-out infinite reverse;
 }
 .deco-line1 {
   top: 30%; left: 8%;
   width: 60px; height: 1px;
-  background: linear-gradient(90deg, transparent, hsl(220 80% 60% / 0.2), transparent);
+  background: linear-gradient(90deg, transparent, hsl(210 80% 55% / 0.25), transparent);
   animation: float-drift 8s ease-in-out infinite;
 }
 .deco-line2 {
   bottom: 35%; right: 10%;
   width: 40px; height: 1px;
-  background: linear-gradient(90deg, transparent, hsl(265 80% 60% / 0.2), transparent);
+  background: linear-gradient(90deg, transparent, hsl(210 80% 55% / 0.25), transparent);
   transform: rotate(30deg);
   animation: float-drift 7s ease-in-out infinite reverse;
 }
 .deco-dot1 {
   top: 55%; left: 22%;
   width: 4px; height: 4px; border-radius: 50%;
-  background: hsl(265 85% 65% / 0.25);
+  background: hsl(210 100% 55% / 0.3);
   animation: float-gentle 4s ease-in-out infinite;
 }
 .deco-dot2 {
   top: 18%; right: 35%;
   width: 3px; height: 3px; border-radius: 50%;
-  background: hsl(220 85% 65% / 0.2);
+  background: hsl(195 85% 55% / 0.25);
   animation: float-gentle 5.5s ease-in-out infinite reverse;
 }
 
@@ -420,23 +399,24 @@ onUnmounted(() => {
   gap: 14px;
   padding: 18px 22px;
   border-radius: 16px;
-  background: hsl(240 8% 8% / 0.65);
-  border: 1px solid hsl(0 0% 100% / 0.06);
+  background: hsl(0 0% 100% / 0.75);
+  border: 1px solid hsl(210 30% 80% / 0.5);
   backdrop-filter: blur(12px);
   overflow: hidden;
   transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
   min-width: 220px;
+  box-shadow: 0 4px 20px hsl(210 30% 50% / 0.06);
 }
 .feat-card:hover {
-  border-color: hsl(265 85% 60% / 0.35);
+  border-color: hsl(210 100% 50% / 0.35);
   transform: translateY(-6px) scale(1.03);
-  box-shadow: 0 12px 40px hsl(265 85% 50% / 0.15);
+  box-shadow: 0 12px 40px hsl(210 100% 50% / 0.12);
 }
 .feat-glow {
   position: absolute;
   top: -40%; left: -40%;
   width: 180%; height: 180%;
-  background: radial-gradient(circle, hsl(265 85% 55% / 0.06), transparent 60%);
+  background: radial-gradient(circle, hsl(210 100% 55% / 0.05), transparent 60%);
   animation: glow-rotate 8s linear infinite;
   pointer-events: none;
 }
@@ -447,12 +427,12 @@ onUnmounted(() => {
   width: 42px; height: 42px;
   border-radius: 12px;
   display: flex; align-items: center; justify-content: center;
-  background: hsl(265 85% 55% / 0.15);
-  color: hsl(265 70% 70%);
+  background: hsl(210 100% 50% / 0.1);
+  color: hsl(210 100% 45%);
 }
 .feat-text { display: flex; flex-direction: column; gap: 4px; }
-.feat-title { font-size: 0.88rem; font-weight: 600; color: hsl(0 0% 90%); }
-.feat-desc { font-size: 0.72rem; color: hsl(0 0% 48%); line-height: 1.4; }
+.feat-title { font-size: 0.88rem; font-weight: 600; color: hsl(215 25% 18%); }
+.feat-desc { font-size: 0.72rem; color: hsl(215 15% 50%); line-height: 1.4; }
 
 /* ── Center content ───────────────────────────────────── */
 .center {
@@ -472,16 +452,16 @@ onUnmounted(() => {
 
 .logo-circle {
   position: relative; z-index: 2;
-  width: 76px; height: 76px; border-radius: 50%;
+  width: 96px; height: 96px; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
-  background: linear-gradient(135deg, hsl(265 85% 55%), hsl(290 80% 50%));
+  background: linear-gradient(135deg, hsl(195 100% 50%), hsl(210 100% 45%));
   color: white;
-  box-shadow: 0 0 40px hsl(265 85% 50% / 0.35), 0 0 80px hsl(265 85% 50% / 0.15);
+  box-shadow: 0 0 40px hsl(210 100% 50% / 0.25), 0 0 80px hsl(210 100% 50% / 0.1);
 }
 .pulse-ring {
   position: absolute; top: 50%; left: 50%;
-  width: 76px; height: 76px; border-radius: 50%;
-  border: 1px solid hsl(265 85% 60% / 0.4);
+  width: 96px; height: 96px; border-radius: 50%;
+  border: 1px solid hsl(210 100% 50% / 0.3);
   transform: translate(-50%,-50%) scale(1); opacity: 0;
 }
 .logo.in .pulse-ring { animation: ring-expand 3s ease-out infinite; }
@@ -489,7 +469,7 @@ onUnmounted(() => {
 .r2 { animation-delay: 1s !important; }
 .r3 { animation-delay: 2s !important; }
 @keyframes ring-expand {
-  0% { transform: translate(-50%,-50%) scale(1); opacity: 0.6; }
+  0% { transform: translate(-50%,-50%) scale(1); opacity: 0.5; }
   100% { transform: translate(-50%,-50%) scale(3.5); opacity: 0; }
 }
 
@@ -499,7 +479,7 @@ onUnmounted(() => {
   font-size: clamp(3rem,10vw,7rem);
   font-weight: 800; letter-spacing: -0.03em; line-height: 1;
   margin: 0 0 20px;
-  background: linear-gradient(135deg,#c084fc 0%,#818cf8 25%,#67e8f9 50%,#818cf8 75%,#c084fc 100%);
+  background: linear-gradient(135deg,#0055cc 0%,#0077ee 25%,#00aaff 50%,#0077ee 75%,#0055cc 100%);
   background-size: 200% 200%;
   -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
   clip-path: inset(0 50% 0 50%);
@@ -511,7 +491,7 @@ onUnmounted(() => {
 /* Subtitle */
 .sub {
   font-size: clamp(1rem,2.5vw,1.35rem);
-  color: hsl(0 0% 65%); font-weight: 400; letter-spacing: 0.04em;
+  color: hsl(215 15% 45%); font-weight: 400; letter-spacing: 0.04em;
   margin: 0 0 40px; min-height: 1.6em;
   opacity: 0; transform: translateY(20px);
   transition: all 0.6s cubic-bezier(0.16,1,0.3,1);
@@ -519,7 +499,7 @@ onUnmounted(() => {
 .sub.in { opacity: 1; transform: translateY(0); }
 
 .cursor {
-  color: hsl(265 85% 60%); font-weight: 300;
+  color: hsl(210 100% 50%); font-weight: 300;
   animation: blink 0.7s step-end infinite;
 }
 @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
@@ -529,77 +509,38 @@ onUnmounted(() => {
   position: relative;
   display: inline-flex; align-items: center; gap: 10px;
   padding: 16px 42px; border-radius: 50px; border: none;
-  background: linear-gradient(135deg, hsl(265 85% 55%), hsl(280 80% 50%));
+  background: linear-gradient(135deg, hsl(210 100% 48%), hsl(195 100% 45%));
   color: white; font-size: 1.05rem; font-weight: 600;
   cursor: pointer; overflow: hidden;
-  box-shadow: 0 4px 30px hsl(265 85% 50% / 0.3);
+  box-shadow: 0 4px 30px hsl(210 100% 50% / 0.25);
   opacity: 0; transform: translateY(20px);
   transition: opacity 0.6s cubic-bezier(0.16,1,0.3,1), transform 0.6s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s;
 }
 .cta.in { opacity: 1; transform: translateY(0); animation: cta-glow 3s ease-in-out 2.5s infinite; }
-.cta:hover { box-shadow: 0 6px 45px hsl(265 85% 50% / 0.5); transform: translateY(-3px) scale(1.03); }
+.cta:hover { box-shadow: 0 6px 45px hsl(210 100% 50% / 0.4); transform: translateY(-3px) scale(1.03); }
 .cta:active { transform: scale(0.97); }
 .cta::after {
   content: ''; position: absolute; top: 0; left: -100%;
   width: 100%; height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
   transition: left 0.6s;
 }
 .cta:hover::after { left: 100%; }
-@keyframes cta-glow { 0%,100%{box-shadow:0 4px 30px hsl(265 85% 50%/.3)} 50%{box-shadow:0 4px 50px hsl(265 85% 50%/.5)} }
-
-/* ── Artist marquee ───────────────────────────────────── */
-.marquee-wrap {
-  position: absolute;
-  bottom: 56px; left: 0; right: 0;
-  z-index: 10; overflow: hidden;
-  opacity: 0; transform: translateY(10px);
-  transition: all 0.8s cubic-bezier(0.16,1,0.3,1);
-}
-.marquee-wrap.in { opacity: 1; transform: translateY(0); }
-
-.marquee-track {
-  display: flex; gap: 32px;
-  animation: marquee 25s linear infinite;
-  width: max-content;
-}
-.marquee-item {
-  display: flex; align-items: center; gap: 10px;
-  flex-shrink: 0;
-}
-.marquee-img {
-  width: 36px; height: 36px; border-radius: 50%;
-  object-fit: cover;
-  border: 1.5px solid hsl(265 70% 55% / 0.3);
-  transition: border-color 0.3s, box-shadow 0.3s;
-}
-.marquee-item:hover .marquee-img {
-  border-color: hsl(265 70% 60% / 0.7);
-  box-shadow: 0 0 16px hsl(265 85% 50% / 0.3);
-}
-.marquee-name {
-  font-size: 0.75rem; font-weight: 600; letter-spacing: 0.05em;
-  color: hsl(0 0% 45%);
-  white-space: nowrap;
-}
-@keyframes marquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(calc(-100% / 3)); }
-}
+@keyframes cta-glow { 0%,100%{box-shadow:0 4px 30px hsl(210 100% 50%/.25)} 50%{box-shadow:0 4px 50px hsl(210 100% 50%/.4)} }
 
 /* ── Ticker ───────────────────────────────────────────── */
 .ticker {
   position: absolute; bottom: 0; left: 0; right: 0;
   padding: 12px 0; z-index: 10;
-  background: hsl(240 8% 6% / 0.6);
+  background: hsl(0 0% 100% / 0.6);
   backdrop-filter: blur(10px);
-  border-top: 1px solid hsl(0 0% 100% / 0.05);
+  border-top: 1px solid hsl(210 30% 80% / 0.4);
   overflow: hidden; opacity: 0;
   transition: opacity 0.8s ease 0.3s;
 }
 .ticker.in { opacity: 1; }
 .ticker-track { display: flex; white-space: nowrap; animation: tick-scroll 40s linear infinite; }
-.ticker-seg { color: hsl(0 0% 35%); font-size: 0.8rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; }
+.ticker-seg { color: hsl(215 15% 60%); font-size: 0.8rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; }
 @keyframes tick-scroll { from{transform:translateX(0)} to{transform:translateX(-25%)} }
 
 /* ── Responsive ───────────────────────────────────────── */
@@ -613,8 +554,6 @@ onUnmounted(() => {
   }
 
   .deco-ring, .deco-line1, .deco-line2 { display: none; }
-
-  .marquee-wrap { bottom: 50px; }
 }
 
 @media (max-width: 640px) {

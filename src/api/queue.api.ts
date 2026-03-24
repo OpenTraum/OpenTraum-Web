@@ -5,13 +5,9 @@ import type {
   QueueStatusApiResponse,
 } from '@/types/queue'
 import client from './client'
-import { createMockQueueEntry, pollMockQueue } from './mock/queue.mock'
-
-const USE_MOCK = import.meta.env.VITE_USE_MOCK === 'true'
 
 export const queueApi = {
   async join(scheduleId: string): Promise<QueueEntry> {
-    if (USE_MOCK) return createMockQueueEntry(scheduleId)
     const raw = (await client.post<QueueEntryApiResponse>(`/v1/queue/${scheduleId}/enter`)).data
     return {
       queueId: String(raw.scheduleId),
@@ -24,7 +20,6 @@ export const queueApi = {
   },
 
   async poll(scheduleId: string): Promise<QueuePollResponse> {
-    if (USE_MOCK) return pollMockQueue()
     const raw = (await client.get<QueueStatusApiResponse>(`/v1/queue/${scheduleId}/status`)).data
     return {
       position: raw.position,
@@ -36,12 +31,10 @@ export const queueApi = {
   },
 
   async heartbeat(scheduleId: string): Promise<void> {
-    if (USE_MOCK) return
     await client.post(`/v1/queue/${scheduleId}/heartbeat`)
   },
 
   async cancel(scheduleId: string): Promise<void> {
-    if (USE_MOCK) return
     await client.delete(`/v1/queue/${scheduleId}/leave`)
   },
 }

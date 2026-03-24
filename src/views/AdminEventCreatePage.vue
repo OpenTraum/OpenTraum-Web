@@ -103,7 +103,7 @@ async function handleCreate() {
         <input
           v-model="prompt"
           type="text"
-          placeholder="예: 4월 올림픽홀 BTS 콘서트 2400석"
+          placeholder="예: 4월 올림픽홀 콘서트 2400석"
           class="flex-1 h-11 px-4 rounded-lg bg-secondary border border-border text-foreground text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
           @keydown.enter="handleAiGenerate"
         />

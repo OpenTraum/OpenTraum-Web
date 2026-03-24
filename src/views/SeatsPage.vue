@@ -7,7 +7,6 @@ import type { Seat, SeatSection, VenueSectionInfo } from '@/types/seat'
 import type { ReservationSeatItem } from '@/types/reservation'
 import { concertApi } from '@/api/concert.api'
 import { seatApi } from '@/api/seat.api'
-import { reservationApi } from '@/api/reservation.api'
 import { usePaymentStore } from '@/stores/payment.store'
 import { useQueueStore } from '@/stores/queue.store'
 import { useSeatStore } from '@/stores/seat.store'
@@ -39,6 +38,7 @@ const isPanning = ref(false)
 const panStartX = ref(0)
 const panStartY = ref(0)
 const zoomContainer = ref<HTMLDivElement>()
+void zoomContainer // template ref
 
 function handleZoomIn() {
   zoom.value = Math.min(3, zoom.value + 0.3)
@@ -158,25 +158,6 @@ async function handleSubmit() {
   const scheduleId = String(selectedDate.value.id)
 
   try {
-    const USE_MOCK = import.meta.env.VITE_USE_MOCK === 'true'
-
-    if (USE_MOCK) {
-      const seats: ReservationSeatItem[] = seatStore.selectedSeats.map((s) => {
-        const grade = gradeOf(s)
-        return { seatId: s.id, section: s.section, row: s.row, number: s.number, gradeId: s.gradeId, gradeLabel: grade?.label ?? s.gradeId, unitPrice: grade?.price ?? 0 }
-      })
-      const firstGrade = gradeOf(seatStore.selectedSeats[0])
-      const reservation = await reservationApi.create({
-        concertId: concert.value.id, concertTitle: concert.value.title, dateId: selectedDate.value.id,
-        track: 'live', gradeId: firstGrade?.id ?? '', gradeLabel: seats.map((s) => s.gradeLabel).join(', '),
-        unitPrice: firstGrade?.price ?? 0, quantity: seats.length, seats,
-      })
-      paymentStore.setReservation(reservation)
-      queueStore.reset()
-      router.push(`/payment/${reservation.id}`)
-      return
-    }
-
     // BE 연동: 좌석마다 seatApi.selectSeat 호출
     let lastResponse: import('@/api/seat.api').SeatSelectionResponse | null = null
     for (const seat of seatStore.selectedSeats) {
@@ -191,7 +172,7 @@ async function handleSubmit() {
       `/v1/reservations/pending`, { params: { scheduleId } },
     )
     const reservationId = String(pendingRes.id)
-    const firstGrade = gradeOf(seatStore.selectedSeats[0])
+    const firstGrade = gradeOf(seatStore.selectedSeats[0]!)
     const seats: ReservationSeatItem[] = seatStore.selectedSeats.map((s) => {
       const grade = gradeOf(s)
       return { seatId: s.id, section: s.section, row: s.row, number: s.number, gradeId: s.gradeId, gradeLabel: grade?.label ?? s.gradeId, unitPrice: grade?.price ?? 0 }

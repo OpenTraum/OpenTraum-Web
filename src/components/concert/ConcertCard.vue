@@ -20,9 +20,9 @@ const lowestPrice = computed(() => Math.min(...props.concert.grades.map((g) => g
 const statusBadge = computed(() => {
   switch (props.concert.saleStatus) {
     case 'on-sale':
-      return { text: '예매중', class: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30' }
+      return { text: '예매중', class: 'bg-emerald-500/20 text-emerald-600 border-emerald-500/30' }
     case 'coming-soon':
-      return { text: '예매예정', class: 'bg-amber-500/20 text-amber-400 border-amber-500/30' }
+      return { text: '예매예정', class: 'bg-amber-500/20 text-amber-600 border-amber-500/30' }
     case 'sold-out':
       return { text: '매진', class: 'bg-destructive/20 text-destructive border-destructive/30' }
   }

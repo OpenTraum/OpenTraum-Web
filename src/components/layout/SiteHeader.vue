@@ -24,7 +24,7 @@ const navLinks = [
           <img
             src="@/assets/logo.png"
             alt="OpenTraum"
-            class="h-10 w-auto"
+            class="h-14 w-auto"
           />
         </RouterLink>
 

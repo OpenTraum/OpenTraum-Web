@@ -89,12 +89,12 @@ async function handleCancel() {
         <div class="relative">
           <div class="absolute inset-0 rounded-full bg-emerald-500/20 animate-ping" style="animation-duration: 1s" />
           <div class="relative w-20 h-20 rounded-full bg-emerald-500/20 flex items-center justify-center">
-            <CheckCircle class="w-10 h-10 text-emerald-400" />
+            <CheckCircle class="w-10 h-10 text-emerald-600" />
           </div>
         </div>
         <h2 class="font-display text-2xl font-bold text-foreground mb-2 mt-6">순번이 도달했습니다!</h2>
         <p class="text-muted-foreground">{{ track === 'lottery' ? '로터리 예매' : '좌석 선택' }} 페이지로 이동합니다...</p>
-        <div class="flex items-center gap-1 mt-4 text-emerald-400">
+        <div class="flex items-center gap-1 mt-4 text-emerald-600">
           <Sparkles class="w-4 h-4" />
           <span class="text-sm font-medium">입장 준비 완료</span>
         </div>

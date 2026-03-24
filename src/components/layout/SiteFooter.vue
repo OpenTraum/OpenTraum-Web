@@ -8,10 +8,10 @@
         <!-- 브랜드 -->
         <div class="md:col-span-1">
           <div class="flex items-center gap-2 mb-3">
-            <img src="@/assets/logo.png" alt="OpenTraum" class="h-12 w-auto" />
+            <img src="@/assets/logo.png" alt="OpenTraum" class="h-16 w-auto" />
           </div>
           <p class="text-sm text-muted-foreground leading-relaxed">
-            공정한 티켓팅 플랫폼.<br />모든 팬에게 동등한 기회를.
+            AI 기반 스마트 티켓팅 플랫폼.
           </p>
         </div>
 

@@ -83,7 +83,7 @@ async function handleSubmit() {
 
     const reservation = await reservationApi.createLottery({
       scheduleId: concertId,
-      grade: selectedItems.value[0].label,
+      grade: selectedItems.value[0]!.label,
       quantity: totalQuantity.value,
       token: queueStore.readyToken!,
       concertTitle: concert.value.title,
@@ -214,7 +214,7 @@ async function handleSubmit() {
           </div>
 
           <!-- 2매 도달 안내 -->
-          <p v-if="totalQuantity >= 2" class="text-xs text-amber-400 mt-3 flex items-center gap-1.5">
+          <p v-if="totalQuantity >= 2" class="text-xs text-amber-600 mt-3 flex items-center gap-1.5">
             <Info class="w-3.5 h-3.5" />
             최대 수량(2매)에 도달했습니다.
           </p>

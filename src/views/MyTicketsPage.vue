@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { Ticket, Loader2, Calendar, Tag, MapPin, Hash } from 'lucide-vue-next'
+import { Ticket, Calendar, Tag, MapPin, Hash } from 'lucide-vue-next'
 import type { Reservation } from '@/types/reservation'
 import { reservationApi } from '@/api/reservation.api'
 
@@ -18,9 +18,9 @@ onMounted(async () => {
 function statusBadge(status: Reservation['status']) {
   switch (status) {
     case 'paid':
-      return { text: '결제완료', class: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30' }
+      return { text: '결제완료', class: 'bg-emerald-500/20 text-emerald-600 border-emerald-500/30' }
     case 'pending':
-      return { text: '결제대기', class: 'bg-amber-500/20 text-amber-400 border-amber-500/30' }
+      return { text: '결제대기', class: 'bg-amber-500/20 text-amber-600 border-amber-500/30' }
     case 'cancelled':
       return { text: '취소됨', class: 'bg-destructive/20 text-destructive border-destructive/30' }
     case 'expired':

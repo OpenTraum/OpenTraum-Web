@@ -12,9 +12,9 @@ const icons = {
 }
 
 const styles = {
-  success: 'border-emerald-500/30 bg-emerald-500/10 text-emerald-400',
+  success: 'border-emerald-500/30 bg-emerald-500/10 text-emerald-600',
   error: 'border-destructive/30 bg-destructive/10 text-destructive',
-  warning: 'border-amber-500/30 bg-amber-500/10 text-amber-400',
+  warning: 'border-amber-500/30 bg-amber-500/10 text-amber-600',
   info: 'border-primary/30 bg-primary/10 text-primary',
 }
 </script>

@@ -27,8 +27,6 @@ declare global {
   }
 }
 
-const USE_MOCK = import.meta.env.VITE_USE_MOCK === 'true'
-
 const route = useRoute()
 const router = useRouter()
 const paymentStore = usePaymentStore()
@@ -114,19 +112,6 @@ async function handlePay() {
   paying.value = true
   paymentStore.setStatus('processing')
 
-  if (USE_MOCK) {
-    try {
-      await new Promise((r) => setTimeout(r, 1500))
-      await reservationApi.pay(paymentStore.reservation!.id)
-      paymentStore.setStatus('success')
-      router.push('/payment/result?status=success')
-    } catch {
-      paymentStore.setStatus('fail', '결제에 실패했습니다.')
-      router.push('/payment/result?status=fail')
-    }
-    return
-  }
-
   // PortOne V2 결제
   if (!window.PortOne) {
     paymentStore.setStatus('fail', 'PortOne SDK를 불러올 수 없습니다.')
@@ -138,12 +123,12 @@ async function handlePay() {
   try {
     const response = await window.PortOne.requestPayment({
       storeId: import.meta.env.VITE_PORTONE_STORE_ID,
-      channelKey: CHANNEL_KEY_MAP[selectedMethod.value],
+      channelKey: CHANNEL_KEY_MAP[selectedMethod.value]!,
       paymentId: merchantUid.value,
       orderName: itemName.value,
       totalAmount: preparedAmount.value,
       currency: 'KRW',
-      payMethod: PAY_METHOD_MAP[selectedMethod.value],
+      payMethod: PAY_METHOD_MAP[selectedMethod.value]!,
     })
 
     if (response.code) {
