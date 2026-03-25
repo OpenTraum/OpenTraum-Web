@@ -5,7 +5,6 @@
   <footer class="border-t border-border bg-background">
     <div class="mx-auto max-w-7xl px-4 lg:px-8 py-12">
       <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-        <!-- 브랜드 -->
         <div class="md:col-span-1">
           <div class="flex items-center gap-2 mb-3">
             <img src="@/assets/logo.png" alt="OpenTraum" class="h-16 w-auto" />
@@ -14,8 +13,6 @@
             AI 기반 스마트 티켓팅 플랫폼.
           </p>
         </div>
-
-        <!-- 링크 그룹 -->
         <div>
           <h4 class="text-sm font-semibold text-foreground mb-3">Events</h4>
           <ul class="space-y-2">
@@ -42,7 +39,6 @@
           </ul>
         </div>
       </div>
-
       <div class="border-t border-border mt-8 pt-8">
         <p class="text-xs text-muted-foreground text-center">
           &copy; 2026 OpenTraum. All rights reserved.

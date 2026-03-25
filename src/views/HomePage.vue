@@ -269,7 +269,7 @@ function formatDate(d: string) {
   height: 44px;
   border-radius: 50%;
   border: 1px solid hsl(var(--border));
-  background: hsl(var(--background) / 0.5);
+  background: hsl(var(--card) / 0.6);
   backdrop-filter: blur(8px);
   color: hsl(var(--foreground));
   display: flex;
@@ -326,7 +326,7 @@ section:hover .hero-nav {
   position: absolute;
   inset: 0;
   border-radius: 9999px;
-  background: hsl(var(--foreground) / 0.9);
+  background: hsl(var(--primary));
   transform-origin: left;
   animation: dot-fill 5s linear forwards;
 }

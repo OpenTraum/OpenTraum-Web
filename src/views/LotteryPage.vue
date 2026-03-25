@@ -216,7 +216,7 @@ async function handleSubmit() {
           <!-- 2매 도달 안내 -->
           <p v-if="totalQuantity >= 2" class="text-xs text-amber-600 mt-3 flex items-center gap-1.5">
             <Info class="w-3.5 h-3.5" />
-            최대 수량(2매)에 도달했습니다.
+            최대 수량(2매)에 도달했습니다
           </p>
         </section>
       </div>
