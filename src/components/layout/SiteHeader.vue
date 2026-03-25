@@ -18,14 +18,9 @@ const navLinks = [
     class="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border"
   >
     <div class="mx-auto max-w-7xl flex items-center justify-between px-4 h-16 lg:px-8">
-      <!-- 좌측: 로고 + 네비 -->
       <div class="flex items-center gap-8">
         <RouterLink to="/concerts" class="flex items-center gap-2">
-          <img
-            src="@/assets/logo.png"
-            alt="OpenTraum"
-            class="h-14 w-auto"
-          />
+          <img src="@/assets/logo.png" alt="OpenTraum" class="h-14 w-auto" />
         </RouterLink>
 
         <nav class="hidden md:flex items-center gap-6">
@@ -40,7 +35,6 @@ const navLinks = [
         </nav>
       </div>
 
-      <!-- 우측: 인증 버튼 -->
       <div class="flex items-center gap-3">
         <template v-if="authStore.isLoggedIn">
           <span class="hidden md:inline text-sm text-muted-foreground">
@@ -69,7 +63,6 @@ const navLinks = [
           </RouterLink>
         </template>
 
-        <!-- 모바일 메뉴 토글 -->
         <button
           class="md:hidden p-2 text-muted-foreground hover:text-foreground"
           @click="mobileOpen = !mobileOpen"
@@ -80,7 +73,6 @@ const navLinks = [
       </div>
     </div>
 
-    <!-- 모바일 메뉴 -->
     <Transition
       enter-active-class="transition duration-200 ease-out"
       enter-from-class="opacity-0 -translate-y-2"

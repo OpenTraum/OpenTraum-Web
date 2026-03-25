@@ -10,6 +10,9 @@ const loading = ref(true)
 onMounted(async () => {
   try {
     tickets.value = await reservationApi.getMyTickets()
+  } catch {
+    // BE 엔드포인트 미구현 시 빈 목록 표시
+    tickets.value = []
   } finally {
     loading.value = false
   }
