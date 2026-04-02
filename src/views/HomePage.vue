@@ -9,7 +9,23 @@ import { ArrowRight, CalendarDays, ChevronLeft, ChevronRight } from 'lucide-vue-
 const concerts = ref<Concert[]>([])
 const loading = ref(true)
 const current = ref(0)
+const activeCategory = ref('ALL')
 let timer = 0
+
+const categories = [
+  { key: 'ALL', label: '전체' },
+  { key: 'CONCERT', label: '콘서트' },
+  { key: 'SPORTS', label: '스포츠' },
+  { key: 'MUSICAL', label: '뮤지컬' },
+  { key: 'FANMEETING', label: '팬미팅' },
+  { key: 'FESTIVAL', label: '페스티벌' },
+  { key: 'EXHIBITION', label: '전시' },
+]
+
+const filteredConcerts = computed(() => {
+  if (activeCategory.value === 'ALL') return concerts.value
+  return concerts.value.filter((c) => c.category === activeCategory.value)
+})
 
 const heroSlides = computed(() => concerts.value)
 
@@ -199,8 +215,27 @@ function formatDate(d: string) {
         </template>
       </section>
 
+      <!-- 카테고리 필터 -->
+      <section class="px-4 lg:px-8 mx-auto max-w-7xl pt-10 pb-4">
+        <div class="flex gap-2 overflow-x-auto pb-2">
+          <button
+            v-for="cat in categories"
+            :key="cat.key"
+            class="px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all"
+            :class="
+              activeCategory === cat.key
+                ? 'bg-primary text-primary-foreground shadow-sm'
+                : 'bg-secondary text-muted-foreground hover:text-foreground'
+            "
+            @click="activeCategory = cat.key"
+          >
+            {{ cat.label }}
+          </button>
+        </div>
+      </section>
+
       <!-- 콘서트 그리드 -->
-      <ConcertsGrid :concerts="concerts" />
+      <ConcertsGrid :concerts="filteredConcerts" />
     </template>
   </div>
 </template>
