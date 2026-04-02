@@ -70,6 +70,20 @@ export interface GradeStat {
   availableSeats: number
 }
 
+export interface RecommendedAction {
+  type: 'PRICE_ADJUST' | 'TRACK_CHANGE' | 'CAPACITY_WARNING' | 'MARKETING'
+  title: string
+  description: string
+  urgency: 'LOW' | 'MEDIUM' | 'HIGH'
+}
+
+export interface AdminInsightResponse {
+  scheduleId: number
+  riskLevel: 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL'
+  insights: string[]
+  actions: RecommendedAction[]
+}
+
 export interface AdminDashboardResponse {
   scheduleId: number
   title: string
@@ -112,6 +126,11 @@ export const adminEventsApi = {
 
   async dashboard(scheduleId: number): Promise<AdminDashboardResponse> {
     const { data } = await client.get(`/v1/admin/events/${scheduleId}/dashboard`)
+    return data
+  },
+
+  async getInsights(scheduleId: number): Promise<AdminInsightResponse> {
+    const { data } = await client.get(`/v1/admin/events/${scheduleId}/insights`)
     return data
   },
 
