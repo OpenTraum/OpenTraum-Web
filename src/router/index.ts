@@ -16,6 +16,12 @@ const router = createRouter({
       component: () => import('@/views/HomePage.vue'),
     },
     {
+      path: '/guide',
+      name: 'guide',
+      component: () => import('@/views/GuidePage.vue'),
+      meta: { fullscreen: true },
+    },
+    {
       path: '/login',
       name: 'login',
       component: () => import('@/views/LoginPage.vue'),

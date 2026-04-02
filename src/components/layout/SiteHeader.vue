@@ -1,24 +1,26 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
+import { useRoute } from 'vue-router'
 import { Menu, X, User, LogOut, Building2 } from 'lucide-vue-next'
 import { useAuthStore } from '@/stores/auth.store'
 
+const route = useRoute()
 const authStore = useAuthStore()
 const mobileOpen = ref(false)
 
+const isAuthPage = computed(() => ['login', 'signup', 'guide'].includes(route.name as string))
+
 const navLinks = computed(() => {
+  if (!authStore.isLoggedIn) return []
   if (authStore.isOrganizer) {
     return [
       { label: '이벤트 관리', to: '/admin/events' },
     ]
   }
-  const links = [
+  return [
     { label: 'Concerts', to: '/concerts' },
+    { label: 'My Tickets', to: '/my/tickets' },
   ]
-  if (authStore.isLoggedIn) {
-    links.push({ label: 'My Tickets', to: '/my/tickets' })
-  }
-  return links
 })
 </script>
 
@@ -29,10 +31,10 @@ const navLinks = computed(() => {
     <div class="mx-auto max-w-7xl flex items-center justify-between px-4 h-16 lg:px-8">
       <div class="flex items-center gap-8">
         <RouterLink to="/concerts" class="flex items-center gap-2">
-          <img src="@/assets/logo.png" alt="OpenTraum" class="h-14 w-auto" />
+          <img src="@/assets/logo.png" alt="OpenTraum" class="h-28 w-auto" />
         </RouterLink>
 
-        <nav class="hidden md:flex items-center gap-6">
+        <nav v-if="!isAuthPage" class="hidden md:flex items-center gap-6">
           <RouterLink
             v-for="link in navLinks"
             :key="link.label"
@@ -44,7 +46,7 @@ const navLinks = computed(() => {
         </nav>
       </div>
 
-      <div class="flex items-center gap-3">
+      <div v-if="!isAuthPage" class="flex items-center gap-3">
         <template v-if="authStore.isLoggedIn">
           <span
             v-if="authStore.isOrganizer"
@@ -98,7 +100,7 @@ const navLinks = computed(() => {
       leave-to-class="opacity-0 -translate-y-2"
     >
       <div
-        v-if="mobileOpen"
+        v-if="mobileOpen && !isAuthPage"
         class="md:hidden border-t border-border bg-background/95 backdrop-blur-xl"
       >
         <nav class="flex flex-col px-4 py-4 gap-1">

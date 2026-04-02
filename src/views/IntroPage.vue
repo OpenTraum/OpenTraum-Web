@@ -25,7 +25,7 @@ const leaving = ref(false)
 function enter() {
   if (leaving.value) return
   leaving.value = true
-  setTimeout(() => router.push('/concerts'), 600)
+  setTimeout(() => router.push('/guide'), 600)
 }
 
 function goSignup() {
@@ -95,18 +95,7 @@ onUnmounted(() => {
     <!-- Dot grid pattern -->
     <div class="dot-grid" />
 
-    <!-- ═══ TOP NAV ═══ -->
-    <nav class="top-nav" :class="{ in: phase >= 2 }">
-      <div class="nav-inner">
-        <div class="nav-logo">
-          <img src="@/assets/logo.png" alt="OpenTraum" class="logo-img" />
-        </div>
-        <div class="nav-actions">
-          <button class="nav-link" @click="enter">둘러보기</button>
-          <button class="nav-cta" @click="goSignup">시작하기</button>
-        </div>
-      </div>
-    </nav>
+    <!-- 상단 네비 제거됨 -->
 
     <!-- ═══ MAIN CONTENT ═══ -->
     <div class="content-wrapper">
