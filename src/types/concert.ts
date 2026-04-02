@@ -29,7 +29,8 @@ export interface Concert {
   title: string
   artist: string
   venue: string
-  image: string // FE 정적 매핑
+  image: string
+  organizerName?: string
   category?: string
   subtitle?: string
   description?: string

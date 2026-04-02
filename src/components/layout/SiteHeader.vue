@@ -1,16 +1,25 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { Menu, X, User, LogOut } from 'lucide-vue-next'
+import { ref, computed } from 'vue'
+import { Menu, X, User, LogOut, Building2 } from 'lucide-vue-next'
 import { useAuthStore } from '@/stores/auth.store'
 
 const authStore = useAuthStore()
 const mobileOpen = ref(false)
 
-const navLinks = [
-  { label: 'Concerts', to: '/concerts' },
-  { label: 'My Tickets', to: '/my/tickets' },
-  { label: 'Admin', to: '/admin/events' },
-]
+const navLinks = computed(() => {
+  if (authStore.isOrganizer) {
+    return [
+      { label: '이벤트 관리', to: '/admin/events' },
+    ]
+  }
+  const links = [
+    { label: 'Concerts', to: '/concerts' },
+  ]
+  if (authStore.isLoggedIn) {
+    links.push({ label: 'My Tickets', to: '/my/tickets' })
+  }
+  return links
+})
 </script>
 
 <template>
@@ -37,7 +46,14 @@ const navLinks = [
 
       <div class="flex items-center gap-3">
         <template v-if="authStore.isLoggedIn">
-          <span class="hidden md:inline text-sm text-muted-foreground">
+          <span
+            v-if="authStore.isOrganizer"
+            class="hidden md:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold border border-primary/20"
+          >
+            <Building2 class="w-3.5 h-3.5" />
+            {{ authStore.user?.name }}
+          </span>
+          <span v-else class="hidden md:inline text-sm text-muted-foreground">
             {{ authStore.user?.name || authStore.user?.email }}
           </span>
           <button

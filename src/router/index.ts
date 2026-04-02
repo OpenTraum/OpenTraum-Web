@@ -91,6 +91,12 @@ const router = createRouter({
   ],
 })
 
+// ORGANIZER가 접근하면 안 되는 소비자 전용 페이지
+const consumerOnlyRoutes = new Set([
+  'home', 'concert-detail', 'queue', 'lottery', 'seats',
+  'payment', 'payment-result', 'my-tickets',
+])
+
 router.beforeEach((to) => {
   if (to.meta.requiresAuth && !localStorage.getItem('access_token')) {
     return { name: 'login', query: { redirect: to.fullPath } }
@@ -106,6 +112,17 @@ router.beforeEach((to) => {
     } catch {
       return { name: 'home' }
     }
+  }
+
+  // ORGANIZER는 소비자 페이지 접근 불가 → 어드민으로 리다이렉트
+  try {
+    const raw = localStorage.getItem('user')
+    const user = raw ? JSON.parse(raw) : null
+    if (user?.role === 'ORGANIZER' && consumerOnlyRoutes.has(to.name as string)) {
+      return { name: 'admin-events' }
+    }
+  } catch {
+    // ignore
   }
 })
 

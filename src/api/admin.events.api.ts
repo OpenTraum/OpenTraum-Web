@@ -32,6 +32,8 @@ export interface AdminEventCreateRequest {
   ticketOpenAt: string
   ticketCloseAt: string
   trackPolicy: string
+  imageUrl: string | null
+  organizerName: string | null
   grades: GradeConfig[]
   zones: ZoneConfig[]
 }
@@ -48,9 +50,17 @@ export interface AdminEventResponse {
   ticketOpenAt: string
   ticketCloseAt: string
   trackPolicy: string
+  imageUrl: string | null
   status: string
   grades?: { grade: string; price: number }[]
   zones?: ZoneConfig[]
+}
+
+export interface VenuePreset {
+  id: number
+  name: string
+  totalSeats: number
+  zoneConfig: Record<string, number>
 }
 
 export interface GradeStat {
@@ -103,5 +113,13 @@ export const adminEventsApi = {
   async dashboard(scheduleId: number): Promise<AdminDashboardResponse> {
     const { data } = await client.get(`/v1/admin/events/${scheduleId}/dashboard`)
     return data
+  },
+
+  async getVenues(): Promise<VenuePreset[]> {
+    const { data } = await client.get('/v1/admin/venues')
+    return data.map((v: VenuePreset & { zoneConfig: string | Record<string, number> }) => ({
+      ...v,
+      zoneConfig: typeof v.zoneConfig === 'string' ? JSON.parse(v.zoneConfig) : v.zoneConfig,
+    }))
   },
 }

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { CalendarDays, MapPin } from 'lucide-vue-next'
+import { CalendarDays, MapPin, Building2 } from 'lucide-vue-next'
 import type { Concert } from '@/types/concert'
 
 const props = defineProps<{ concert: Concert }>()
@@ -59,7 +59,12 @@ const statusBadge = computed(() => {
         >
           {{ concert.title }}
         </h3>
-        <p class="text-sm text-muted-foreground mb-3">{{ concert.artist }}</p>
+        <p class="text-sm text-muted-foreground mb-1">{{ concert.artist }}</p>
+        <div v-if="concert.organizerName" class="flex items-center gap-1 mb-3">
+          <Building2 class="w-3 h-3 text-primary/60" />
+          <span class="text-xs text-primary/60 font-medium">{{ concert.organizerName }}</span>
+        </div>
+        <div v-else class="mb-3" />
 
         <div class="flex items-center justify-between">
           <div class="flex flex-col gap-1">
