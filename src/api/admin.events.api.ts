@@ -19,6 +19,7 @@ export interface AiGenerateResponse {
   dateTime: string
   totalSeats: number
   trackPolicy: string
+  category: string
   grades: GradeConfig[]
   zones: ZoneConfig[]
 }
@@ -34,6 +35,7 @@ export interface AdminEventCreateRequest {
   trackPolicy: string
   imageUrl: string | null
   organizerName: string | null
+  category: string | null
   grades: GradeConfig[]
   zones: ZoneConfig[]
 }

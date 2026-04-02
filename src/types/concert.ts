@@ -31,7 +31,7 @@ export interface Concert {
   venue: string
   image: string
   organizerName?: string
-  category?: string
+  category?: 'CONCERT' | 'SPORTS' | 'MUSICAL' | 'FANMEETING' | 'FESTIVAL' | 'EXHIBITION' | 'OTHER'
   subtitle?: string
   description?: string
   tags?: string[]

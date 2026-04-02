@@ -40,6 +40,7 @@ const venue = ref('')
 const dateTime = ref('')
 const totalSeats = ref(0)
 const trackPolicy = ref('DUAL_TRACK')
+const category = ref('CONCERT')
 const ticketOpenAt = ref('')
 const ticketCloseAt = ref('')
 const grades = ref<GradeConfig[]>([])
@@ -149,6 +150,7 @@ async function handleAiGenerate() {
     dateTime.value = result.dateTime?.replace('T', 'T').slice(0, 16) || ''
     totalSeats.value = result.totalSeats
     trackPolicy.value = result.trackPolicy
+    category.value = result.category || 'OTHER'
     grades.value = result.grades
     zones.value = result.zones
     formReady.value = true
@@ -184,6 +186,7 @@ async function handleCreate() {
       trackPolicy: trackPolicy.value,
       imageUrl: imageUrl.value,
       organizerName: authStore.user?.name ?? null,
+      category: category.value,
       grades: grades.value,
       zones: zones.value,
     })
@@ -360,6 +363,18 @@ const cellInputCls =
               <option value="LIVE_ONLY">선착순 (LIVE_ONLY)</option>
               <option value="LOTTERY_ONLY">추첨 (LOTTERY_ONLY)</option>
               <option value="DUAL_TRACK">듀얼 트랙 (DUAL_TRACK)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm text-muted-foreground mb-1.5">카테고리</label>
+            <select v-model="category" :class="inputCls">
+              <option value="CONCERT">콘서트</option>
+              <option value="SPORTS">스포츠</option>
+              <option value="MUSICAL">뮤지컬/연극</option>
+              <option value="FANMEETING">팬미팅</option>
+              <option value="FESTIVAL">페스티벌</option>
+              <option value="EXHIBITION">전시</option>
+              <option value="OTHER">기타</option>
             </select>
           </div>
         </div>
