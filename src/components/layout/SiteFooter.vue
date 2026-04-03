@@ -6,10 +6,10 @@
     <div class="mx-auto max-w-7xl px-4 lg:px-8 py-12">
       <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
         <div class="md:col-span-1">
-          <div class="flex items-center gap-2 mb-3">
-            <img src="@/assets/logo.png" alt="OpenTraum" class="h-16 w-auto" />
+          <div class="flex items-center gap-2 mb-1 ml-4">
+            <img src="@/assets/logo.png" alt="OpenTraum" class="h-24 w-auto" />
           </div>
-          <p class="text-sm text-muted-foreground leading-relaxed">
+          <p class="text-sm text-muted-foreground leading-relaxed whitespace-nowrap">
             AI 기반 스마트 티켓팅 플랫폼.
           </p>
         </div>
