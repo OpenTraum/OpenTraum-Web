@@ -1,0 +1,42 @@
+import axios from 'axios'
+
+const client = axios.create({
+  baseURL: import.meta.env.VITE_API_BASE_URL || '/api',
+  timeout: 10_000,
+  headers: { 'Content-Type': 'application/json' },
+})
+
+client.interceptors.request.use((config) => {
+  const token = localStorage.getItem('access_token')
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`
+  }
+  const userJson = localStorage.getItem('user')
+  if (userJson) {
+    try {
+      const user = JSON.parse(userJson)
+      if (user.id) {
+        config.headers['X-User-Id'] = String(user.id)
+      }
+      if (user.tenantId) {
+        config.headers['X-Tenant-Id'] = user.tenantId
+      }
+    } catch {
+      // ignore malformed JSON
+    }
+  }
+  return config
+})
+
+client.interceptors.response.use(
+  (res) => res,
+  (err) => {
+    if (err.response?.status === 401) {
+      localStorage.removeItem('access_token')
+      window.location.href = '/login'
+    }
+    return Promise.reject(err)
+  }
+)
+
+export default client
