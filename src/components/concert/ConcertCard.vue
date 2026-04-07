@@ -52,15 +52,16 @@ const statusBadge = computed(() => {
           class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
         <div class="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent" />
-        <div class="absolute top-3 left-3 flex gap-1.5">
+        <div class="absolute top-3 left-3">
           <span
             :class="statusBadge.class"
             class="px-2.5 py-0.5 text-xs font-semibold rounded-full border"
           >
             {{ statusBadge.text }}
           </span>
+        </div>
+        <div v-if="concert.category && concert.category !== 'OTHER'" class="absolute top-3 right-3">
           <span
-            v-if="concert.category && concert.category !== 'OTHER'"
             class="px-2.5 py-0.5 text-xs font-semibold rounded-full bg-background/80 text-foreground backdrop-blur-sm border border-border/50"
           >
             {{ categoryLabel[concert.category] || concert.category }}
