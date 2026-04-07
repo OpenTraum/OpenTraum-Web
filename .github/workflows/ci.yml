@@ -12,6 +12,9 @@ jobs:
     steps:
       - name: 코드 체크아웃
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GIT_TOKEN }}
 
       - name: Harbor 로그인
         uses: docker/login-action@v3
@@ -36,7 +39,8 @@ jobs:
         run: |
           git config --global user.email "github-actions@github.com"
           git config --global user.name "GitHub Actions"
-          git remote set-url origin https://x-access-token:${GIT_TOKEN}@github.com/OpenTraum/OpenTraum-Web.git
+          git fetch origin main
+          git checkout main
           sed -i "s|image: .*opentraum-web.*|image: ${{ secrets.HARBOR_REGISTRY }}/skala26a-cloud/opentraum-web:${{ github.sha }}|" k8s/deployment.yml
           git add k8s/deployment.yml
           git commit -m "chore: 이미지 태그 업데이트 [${{ github.sha }}]" || echo "변경사항 없음"
