@@ -23,7 +23,7 @@ spec:
         - name: harbor-secret
       containers:
         - name: web
-          image: amdp-registry.skala-ai.com/skala26a-cloud/opentraum-web:df412446772664d79af173622f332934ccc9c689
+          image: amdp-registry.skala-ai.com/skala26a-cloud/opentraum-web:b5eccae3f397d6622c5b7fae22d22bb18611943d
           ports:
             - containerPort: 80
               protocol: TCP
