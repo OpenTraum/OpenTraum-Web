@@ -1,21 +1,19 @@
-# Stage 1: Build
-FROM node:20-alpine AS build
+# === Build Stage (네이티브 플랫폼에서 실행, QEMU 에뮬레이션 없음) ===
+FROM --platform=$BUILDPLATFORM node:20-alpine AS build
 
 WORKDIR /app
 
 COPY package.json package-lock.json* ./
-RUN npm ci
+RUN --mount=type=cache,target=/root/.npm npm ci
 
 COPY . .
 RUN npm run build
 
-# Stage 2: Serve with nginx
+# === Runtime Stage ===
 FROM nginx:1.25-alpine
 
-# Copy custom nginx config
 COPY --from=build /app/dist /usr/share/nginx/html
 
-# SPA fallback: redirect all routes to index.html
 RUN echo 'server { \
     listen 80; \
     server_name _; \
