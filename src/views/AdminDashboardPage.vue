@@ -12,6 +12,7 @@ import {
   type AdminDashboardResponse,
   type AdminInsightResponse,
 } from '@/api/admin.events.api'
+import LiveStreamPanel from '@/components/monitoring/LiveStreamPanel.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -176,6 +177,11 @@ const urgencyColor: Record<string, string> = {
             :style="{ width: `${soldPercent}%` }"
           />
         </div>
+      </div>
+
+      <!-- 라이브 SAGA 이벤트 스트림 (SSE — monitoring-service) -->
+      <div class="mb-6">
+        <LiveStreamPanel :tenant-id="event.tenantId" :schedule-id="scheduleId" />
       </div>
 
       <!-- AI 운영 인사이트 -->
