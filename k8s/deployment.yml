@@ -33,7 +33,7 @@ spec:
               app: web
       containers:
         - name: web
-          image: 881490135253.dkr.ecr.ap-northeast-2.amazonaws.com/skala3-cloud1-team8-opentraum-web:774d5c2e5a5a217d049d084716adc691dd106c9b
+          image: 881490135253.dkr.ecr.ap-northeast-2.amazonaws.com/skala3-cloud1-team8-opentraum-web:15ed33111f08b252914d230da6c1d867a66039e2
           imagePullPolicy: Always
           ports:
             - containerPort: 80
